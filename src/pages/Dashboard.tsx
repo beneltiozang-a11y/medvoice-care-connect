@@ -1,23 +1,17 @@
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { CalendarDays, Phone, Clock, Bell, TrendingUp, TrendingDown, Minus, AlertTriangle, FileText } from "lucide-react";
+import { CalendarDays, Clock, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { patient, appointments, calls, notifications, activeSymptoms } from "@/data/mockData";
-
-const evolutionIcon = (e: string) => {
-  if (e === "worsening") return <TrendingUp className="h-4 w-4 text-destructive rotate-0" />;
-  if (e === "improvement") return <TrendingDown className="h-4 w-4 text-success" />;
-  return <Minus className="h-4 w-4 text-muted-foreground" />;
-};
+import { Calendar } from "@/components/ui/calendar";
+import { useNavigate } from "react-router-dom";
+import { appointments, patient } from "@/data/mockData";
 
 const statusColor = (s: string) => {
   if (s === "confirmed") return "bg-success/15 text-success border-success/30";
   if (s === "pending") return "bg-warning/15 text-warning border-warning/30";
   return "bg-destructive/15 text-destructive border-destructive/30";
 };
-
 const statusLabel = (s: string) => {
   if (s === "confirmed") return "Confirmé";
   if (s === "pending") return "En attente";
@@ -25,12 +19,14 @@ const statusLabel = (s: string) => {
 };
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const today = new Date();
-  const nextAppointment = appointments
-    .filter((a) => new Date(a.date) >= today && a.status !== "cancelled")
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-  const recentCalls = calls.slice(0, 3);
-  const unreadNotifications = notifications.filter((n) => !n.read);
+
+  const upcoming = appointments
+    .filter((a) => new Date(a.date) >= today)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  const appointmentDates = appointments.map((a) => new Date(a.date));
 
   return (
     <div className="space-y-6 max-w-6xl">
@@ -44,118 +40,64 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Top row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {/* Next appointment */}
-        {nextAppointment && (
-          <Card className="border-l-4 border-l-primary">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Calendar */}
+        <Card className="lg:col-span-1">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-primary" />
+              Calendrier
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 pt-0 flex justify-center">
+            <Calendar
+              mode="multiple"
+              selected={appointmentDates}
+              className="pointer-events-auto"
+              locale={fr}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Upcoming Appointments */}
+        <div className="lg:col-span-2">
+          <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
                 <CalendarDays className="h-4 w-4 text-primary" />
-                Prochain rendez-vous
+                Rendez-vous à venir ({upcoming.length})
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <p className="font-semibold text-foreground">
-                {format(new Date(nextAppointment.date), "d MMMM yyyy", { locale: fr })} à {nextAppointment.time}
-              </p>
-              <p className="text-sm text-muted-foreground">{nextAppointment.doctor}</p>
-              <p className="text-sm text-muted-foreground">{nextAppointment.motif}</p>
-              <Badge className={`${statusColor(nextAppointment.status)} text-xs`}>
-                {statusLabel(nextAppointment.status)}
-              </Badge>
+            <CardContent className="space-y-3">
+              {upcoming.map((a) => (
+                <div
+                  key={a.id}
+                  onClick={() => navigate(`/appointments/${a.id}`)}
+                  className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-colors group"
+                >
+                  <div className="space-y-1 min-w-0">
+                    <p className="font-semibold text-foreground truncate">{a.motif}</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                      <Clock className="h-3.5 w-3.5 shrink-0" />
+                      {format(new Date(a.date), "d MMM yyyy", { locale: fr })} à {a.time}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{a.doctor} · {a.doctorSpecialty}</p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <Badge className={`${statusColor(a.status)} text-xs`}>
+                      {statusLabel(a.status)}
+                    </Badge>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+              ))}
+              {upcoming.length === 0 && (
+                <p className="text-muted-foreground text-sm py-4 text-center">Aucun rendez-vous à venir.</p>
+              )}
             </CardContent>
           </Card>
-        )}
-
-        {/* Medical summary */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-warning" />
-              Symptômes actifs
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {activeSymptoms.map((s) => (
-                <div key={s.name} className="flex items-center justify-between">
-                  <div>
-                    <span className="text-sm font-medium text-foreground">{s.name}</span>
-                    <span className="text-xs text-muted-foreground ml-2">({s.severity})</span>
-                  </div>
-                  {evolutionIcon(s.evolution)}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Notifications */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Bell className="h-4 w-4 text-primary" />
-              Alertes
-              {unreadNotifications.length > 0 && (
-                <Badge variant="destructive" className="text-[10px] h-5 px-1.5">
-                  {unreadNotifications.length}
-                </Badge>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {notifications.slice(0, 4).map((n) => (
-                <div key={n.id} className={`flex items-start gap-2 text-sm ${n.read ? "opacity-60" : ""}`}>
-                  {n.type === "reminder" && <CalendarDays className="h-4 w-4 text-primary mt-0.5 shrink-0" />}
-                  {n.type === "document" && <FileText className="h-4 w-4 text-accent mt-0.5 shrink-0" />}
-                  {n.type === "alert" && <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />}
-                  <span className="text-foreground">{n.message}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        </div>
       </div>
-
-      {/* Recent calls */}
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Phone className="h-4 w-4 text-primary" />
-              Derniers appels
-            </CardTitle>
-            <Button variant="ghost" size="sm" className="text-primary" asChild>
-              <a href="/calls">Voir tout</a>
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentCalls.map((call) => (
-              <div key={call.id} className="flex items-start justify-between border-b border-border pb-3 last:border-0 last:pb-0">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-foreground">{call.motif}</p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-2">
-                    <Clock className="h-3 w-3" />
-                    {format(new Date(call.date), "d MMM yyyy", { locale: fr })} · {call.duration}
-                  </p>
-                  <div className="flex gap-1.5 flex-wrap mt-1">
-                    {call.symptoms.slice(0, 3).map((s) => (
-                      <Badge key={s} variant="secondary" className="text-[10px] px-2 py-0.5">
-                        {s}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                {evolutionIcon(call.evolution)}
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
