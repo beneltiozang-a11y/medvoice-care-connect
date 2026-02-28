@@ -1,4 +1,5 @@
-import { LayoutDashboard, Users, Calendar, MessageSquare, FileText, BarChart3, Sparkles, Mic, BookOpen, Settings, LogOut, Activity } from "lucide-react";
+import { LayoutDashboard, Users, Calendar, MessageSquare, FileText, BarChart3, Sparkles, Mic, BookOpen, Settings, LogOut } from "lucide-react";
+import { ClerkLogoMark } from "@/components/ClerkLogo";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -67,10 +68,10 @@ export function AppSidebar() {
       <SidebarContent className="pt-5 flex flex-col">
         {/* Logo */}
         <div className="px-4 mb-6 flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <Activity className="h-4 w-4 text-primary" />
+          <div className="h-8 w-8 rounded-[10px] bg-primary/10 flex items-center justify-center shrink-0">
+            <ClerkLogoMark className="h-4 w-4 text-primary" />
           </div>
-          <span className="text-sm font-semibold text-foreground tracking-tight">MedVoice</span>
+          <span className="text-sm font-semibold text-foreground tracking-tight">Clerk</span>
         </div>
 
         {/* Main navigation */}

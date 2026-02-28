@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 // Mock user mapping
 const MOCK_USERS: Record<string, User> = {
-  "dr.martin@medvoice.fr": { email: "dr.martin@medvoice.fr", name: "Dr. Laurent Martin", role: "doctor" },
+  "dr.martin@clerk.fr": { email: "dr.martin@clerk.fr", name: "Dr. Laurent Martin", role: "doctor" },
   "marie.dupont@email.com": { email: "marie.dupont@email.com", name: "Marie Dupont", role: "patient", patientId: "1" },
 };
 
