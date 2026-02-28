@@ -1,61 +1,36 @@
 /**
- * Clerk logo mark — a minimal document/note shape with an integrated
- * microphone element, referencing "the clerk who takes notes".
+ * Clerk logo mark — a single continuous fluid curve suggesting voice/sound,
+ * inspired by the Vocca AI aesthetic. Pure stroke, no fills.
  */
-export function ClerkLogoMark({ className = "h-4 w-4" }: { className?: string }) {
+export function ClerkLogoMark({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Document body with folded corner */}
       <path
-        d="M6 3h8l5 5v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
+        d="M6 20C6 20 9 8 14 8C19 8 13 24 18 24C23 24 26 12 26 12"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="none"
-      />
-      {/* Folded corner */}
-      <path
-        d="M14 3v4a1 1 0 0 0 1 1h4"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Microphone element — small capsule mic in the lower area */}
-      <rect
-        x="10"
-        y="12"
-        width="4"
-        height="5"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      {/* Mic base arc */}
-      <path
-        d="M9 16.5a3 3 0 0 0 6 0"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      {/* Mic stand */}
-      <line
-        x1="12"
-        y1="19.5"
-        x2="12"
-        y2="21"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
       />
     </svg>
+  );
+}
+
+export function ClerkLogo({ className = "" }: { className?: string }) {
+  return (
+    <div className={`flex items-center gap-2 ${className}`}>
+      <ClerkLogoMark className="h-6 w-6 text-[#0070C9]" />
+      <span
+        className="text-[20px] font-semibold tracking-tight"
+        style={{ color: "#1A2B3C", fontFamily: "'Inter', sans-serif" }}
+      >
+        Clerk
+      </span>
+    </div>
   );
 }
