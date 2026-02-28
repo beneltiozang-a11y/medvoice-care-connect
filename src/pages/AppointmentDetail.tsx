@@ -98,6 +98,19 @@ export default function AppointmentDetail() {
               {statusLabel(appointment.status)}
             </Badge>
           </div>
+
+          {/* Start consultation button */}
+          {appointment.status === "confirmed" &&
+            format(new Date(appointment.date), "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd") && (
+              <Button
+                onClick={() => navigate(`/appointments/${appointment.id}/consultation`)}
+                className="gap-2 mt-4 md:mt-0"
+                size="lg"
+              >
+                ▶️ Commencer le RDV
+              </Button>
+            )}
+
           {appointment.notes && (
             <div className="mt-4 p-3 rounded-lg bg-muted/50 text-sm text-muted-foreground">
               📝 {appointment.notes}

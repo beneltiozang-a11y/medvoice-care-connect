@@ -187,9 +187,72 @@ export const calls: CallRecord[] = [
   },
 ];
 
+export interface Medication {
+  name: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+}
+
+export interface Prescription {
+  medications: Medication[];
+  additionalAdvice: string[];
+}
+
+export interface TranscriptMessage {
+  role: "patient" | "ia";
+  text: string;
+}
+
+export interface Consultation {
+  id: string;
+  appointmentId: string;
+  transcript: TranscriptMessage[];
+  detectedSymptoms: string[];
+  urgencyScore: number;
+  probableDiagnosis: string[];
+  aiPrescriptionProposal: Prescription | null;
+  doctorValidated: boolean;
+  finalPrescription: Prescription | null;
+}
+
 export const notifications: Notification[] = [
   { id: "1", type: "reminder", message: "RDV avec Dr. Martin dans 5 jours", date: "2026-02-28", read: false },
   { id: "2", type: "document", message: "Résultats d'analyse à télécharger", date: "2026-02-27", read: false },
   { id: "3", type: "alert", message: "Pensez à mesurer votre tension aujourd'hui", date: "2026-02-28", read: true },
   { id: "4", type: "reminder", message: "Renouvellement d'ordonnance à prévoir", date: "2026-02-26", read: true },
+];
+
+// Mock transcript for simulation
+export const mockTranscriptSteps: TranscriptMessage[] = [
+  { role: "patient", text: "Bonjour docteur, j'ai mal à la gorge depuis 3 jours." },
+  { role: "ia", text: "Bonjour. Avez-vous de la fièvre associée ?" },
+  { role: "patient", text: "Oui, autour de 38.5°C hier soir." },
+  { role: "ia", text: "Avez-vous des difficultés à avaler ?" },
+  { role: "patient", text: "Oui, c'est douloureux quand j'avale." },
+  { role: "ia", text: "Avez-vous remarqué des ganglions gonflés au niveau du cou ?" },
+  { role: "patient", text: "Je ne sais pas trop, peut-être un peu." },
+  { role: "ia", text: "D'accord. Depuis combien de temps ressentez-vous ces symptômes exactement ?" },
+  { role: "patient", text: "Ça a commencé lundi, donc 3 jours." },
+  { role: "ia", text: "Merci. Je note une angine probable. Le médecin va vous examiner." },
+];
+
+export const mockAIPrescription: Prescription = {
+  medications: [
+    { name: "Amoxicilline", dosage: "1g", frequency: "3 fois par jour", duration: "6 jours" },
+    { name: "Paracétamol", dosage: "1000mg", frequency: "Toutes les 6 heures si douleur", duration: "5 jours" },
+    { name: "Hexaspray", dosage: "2 pulvérisations", frequency: "3 fois par jour", duration: "5 jours" },
+  ],
+  additionalAdvice: [
+    "Repos vocal recommandé",
+    "Hydratation abondante (au moins 1.5L d'eau par jour)",
+    "Éviter les aliments irritants (épicés, acides)",
+    "Reconsulter si la fièvre persiste au-delà de 48h sous traitement",
+  ],
+};
+
+export const mockDiagnoses = [
+  "Angine bactérienne (streptocoque probable)",
+  "Pharyngite aiguë",
+  "Infection virale des voies respiratoires supérieures",
 ];
