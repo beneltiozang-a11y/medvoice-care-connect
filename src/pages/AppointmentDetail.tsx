@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -65,13 +64,12 @@ export default function AppointmentDetail() {
     injectMessage,
     getSerializableTranscript,
   } = useTranscriptSocket({
-    // Pass a real WS URL here when Speechmatics is integrated
     url: null,
   });
 
   const hasAllergyConflict =
-    patient?.allergies.some((a) => a.toLowerCase().includes("pénicilline")) &&
-    prescription.some((m) => m.name.toLowerCase().includes("amoxicilline"));
+    patient?.allergies.some((a) => a.toLowerCase().includes("penicillin")) &&
+    prescription.some((m) => m.name.toLowerCase().includes("amoxicillin"));
 
   useEffect(() => {
     transcriptEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -80,9 +78,9 @@ export default function AppointmentDetail() {
   if (!appointment || !patient) {
     return (
       <div className="flex flex-col items-center justify-center py-20 space-y-4">
-        <p className="text-muted-foreground text-sm">Rendez-vous introuvable.</p>
+        <p className="text-muted-foreground text-sm">Appointment not found.</p>
         <Button variant="outline" size="sm" onClick={() => navigate("/")}>
-          Retour
+          Back
         </Button>
       </div>
     );
@@ -131,7 +129,7 @@ export default function AppointmentDetail() {
       setShowPrescription(true);
     } catch (err) {
       console.error("Failed to fetch consultation summary:", err);
-      setAiSummary("Erreur lors de la génération du résumé. Veuillez réessayer.");
+      setAiSummary("Error generating summary. Please try again.");
     } finally {
       setSummaryLoading(false);
     }
@@ -159,7 +157,7 @@ export default function AppointmentDetail() {
           className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Retour
+          Back
         </button>
 
         <div className="flex items-center justify-between">
@@ -206,11 +204,11 @@ export default function AppointmentDetail() {
           <h2 className="text-sm font-medium text-foreground">Patient Profile</h2>
           <div className="grid grid-cols-3 gap-3 text-sm">
             <div className="rounded-md bg-muted px-3 py-2.5">
-              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Âge</p>
-              <p className="text-foreground font-medium">{age} ans</p>
+              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Age</p>
+              <p className="text-foreground font-medium">{age} yrs</p>
             </div>
             <div className="rounded-md bg-muted px-3 py-2.5">
-              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Groupe sanguin</p>
+              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Blood Type</p>
               <p className="text-foreground font-medium">{patient.bloodType}</p>
             </div>
             <div className="rounded-md bg-muted px-3 py-2.5">
@@ -225,7 +223,7 @@ export default function AppointmentDetail() {
                         {a}
                       </span>
                     ))
-                  : <span className="text-foreground text-sm">Aucune</span>}
+                  : <span className="text-foreground text-sm">None</span>}
               </div>
             </div>
           </div>
@@ -233,7 +231,7 @@ export default function AppointmentDetail() {
             <>
               <Separator />
               <div>
-                <p className="text-xs text-muted-foreground mb-2">Antécédents</p>
+                <p className="text-xs text-muted-foreground mb-2">Medical History</p>
                 <ul className="space-y-1">
                   {patient.antecedents.map((a, i) => (
                     <li key={i} className="text-sm text-muted-foreground">
@@ -249,12 +247,12 @@ export default function AppointmentDetail() {
         {/* History timeline */}
         {history.length > 0 && (
           <div className="rounded-lg bg-card border border-border shadow-[0_1px_3px_rgba(0,0,0,0.08)] p-5 space-y-4">
-            <h2 className="text-sm font-medium text-foreground">Historique</h2>
+            <h2 className="text-sm font-medium text-foreground">History</h2>
             <div className="relative">
               {history.map((h, i) => (
                 <div key={i} className="flex gap-4 text-sm relative">
                   <div className="text-xs text-muted-foreground font-mono w-20 shrink-0 pt-1">
-                    {format(new Date(h.date), "dd MMM yy", { locale: fr })}
+                    {format(new Date(h.date), "MMM d, yy")}
                   </div>
                   <div className="flex flex-col items-center shrink-0">
                     <div className="h-2.5 w-2.5 rounded-full bg-primary/40 border-2 border-primary/20 mt-1.5 z-10" />
@@ -290,12 +288,12 @@ export default function AppointmentDetail() {
             <>
               <div className="flex items-center gap-1.5 ml-2">
                 <span className="h-2 w-2 rounded-full bg-destructive animate-pulse" />
-                <span className="text-xs text-muted-foreground">En cours</span>
+                <span className="text-xs text-muted-foreground">In Progress</span>
               </div>
               {wsConnected && (
                 <div className="flex items-center gap-1.5 ml-3 px-2 py-0.5 rounded-full bg-destructive/10">
                   <Radio className="h-3 w-3 text-destructive animate-pulse" />
-                  <span className="text-[11px] text-destructive font-medium">Enregistrement actif</span>
+                  <span className="text-[11px] text-destructive font-medium">Recording active</span>
                 </div>
               )}
             </>
@@ -320,7 +318,7 @@ export default function AppointmentDetail() {
           animate={{ opacity: 1 }}
           className="p-4 bg-success/10 border-b border-success/20 text-center"
         >
-          <p className="text-sm text-success font-medium">Consultation terminée</p>
+          <p className="text-sm text-success font-medium">Consultation completed</p>
         </motion.div>
       )}
 
@@ -362,7 +360,7 @@ export default function AppointmentDetail() {
               </AnimatePresence>
               {transcript.length === 0 && (
                 <p className="text-sm text-muted-foreground text-center py-16">
-                  En attente de la conversation...
+                  Waiting for conversation...
                 </p>
               )}
               <div ref={transcriptEndRef} />
@@ -396,14 +394,14 @@ export default function AppointmentDetail() {
               {summaryLoading ? (
                 <div className="flex flex-col items-center justify-center py-16 space-y-3">
                   <Loader2 className="h-6 w-6 text-primary animate-spin" />
-                  <p className="text-sm text-muted-foreground">Analyse de la consultation...</p>
+                  <p className="text-sm text-muted-foreground">Analyzing consultation...</p>
                 </div>
               ) : aiSummary ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                   <p className="text-sm text-foreground/90 leading-relaxed">{aiSummary}</p>
                   {detectedSymptoms.length > 0 && (
                     <div>
-                      <p className="text-xs text-muted-foreground mb-2">Symptômes détectés</p>
+                      <p className="text-xs text-muted-foreground mb-2">Detected Symptoms</p>
                       <div className="flex flex-wrap gap-1">
                         {detectedSymptoms.map((s) => (
                           <span
@@ -418,7 +416,7 @@ export default function AppointmentDetail() {
                   )}
                   {diagnoses.length > 0 && (
                     <div>
-                      <p className="text-xs text-muted-foreground mb-1">Diagnostic probable</p>
+                      <p className="text-xs text-muted-foreground mb-1">Probable Diagnosis</p>
                       <ul className="space-y-1">
                         {diagnoses.map((d, i) => (
                           <li key={i} className="text-xs text-foreground/80 flex items-center gap-2">
@@ -437,8 +435,8 @@ export default function AppointmentDetail() {
               ) : (
                 <p className="text-sm text-muted-foreground text-center py-10">
                   {consultationEnded
-                    ? "Aucun résumé disponible."
-                    : "Le résumé sera généré à la fin de la consultation..."}
+                    ? "No summary available."
+                    : "Summary will be generated at the end of the consultation..."}
                 </p>
               )}
             </ScrollArea>
@@ -453,7 +451,7 @@ export default function AppointmentDetail() {
               </div>
               {validated && (
                 <Badge className="bg-success/10 text-success border-success/20 text-[10px]">
-                  Validée
+                  Validated
                 </Badge>
               )}
             </div>
@@ -461,13 +459,13 @@ export default function AppointmentDetail() {
               {summaryLoading ? (
                 <div className="flex flex-col items-center justify-center py-10 space-y-3">
                   <Loader2 className="h-5 w-5 text-muted-foreground animate-spin" />
-                  <p className="text-xs text-muted-foreground">Génération de l'ordonnance...</p>
+                  <p className="text-xs text-muted-foreground">Generating prescription...</p>
                 </div>
               ) : !showPrescription ? (
                 <p className="text-sm text-muted-foreground text-center py-10">
                   {consultationEnded
-                    ? "Aucune ordonnance générée."
-                    : "L'ordonnance sera générée à la fin de la consultation..."}
+                    ? "No prescription generated."
+                    : "Prescription will be generated at the end of the consultation..."}
                 </p>
               ) : (
                 <motion.div
@@ -479,7 +477,7 @@ export default function AppointmentDetail() {
                     <div className="p-2.5 rounded-lg bg-[#FEE2E2] border border-destructive/20 flex items-start gap-2">
                       <AlertTriangle className="h-3.5 w-3.5 text-destructive shrink-0 mt-0.5" />
                       <p className="text-xs text-destructive">
-                        Allergie pénicilline détectée — Amoxicilline incompatible
+                        Penicillin allergy detected — Amoxicillin is incompatible
                       </p>
                     </div>
                   )}
@@ -491,13 +489,13 @@ export default function AppointmentDetail() {
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
                               <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">
-                                Médicament
+                                Medication
                               </label>
                               <Input
                                 value={med.name}
                                 onChange={(e) => updateMed(i, "name", e.target.value)}
                                 className="h-8 text-sm bg-card border-input font-medium focus-visible:ring-primary"
-                                placeholder="Médicament"
+                                placeholder="Medication"
                               />
                             </div>
                             <button
@@ -521,24 +519,24 @@ export default function AppointmentDetail() {
                             </div>
                             <div>
                               <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">
-                                Fréquence
+                                Frequency
                               </label>
                               <Input
                                 value={med.frequency}
                                 onChange={(e) => updateMed(i, "frequency", e.target.value)}
                                 className="h-8 text-xs bg-card border-input focus-visible:ring-primary"
-                                placeholder="Fréquence"
+                                placeholder="Frequency"
                               />
                             </div>
                             <div>
                               <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">
-                                Durée
+                                Duration
                               </label>
                               <Input
                                 value={med.duration}
                                 onChange={(e) => updateMed(i, "duration", e.target.value)}
                                 className="h-8 text-xs bg-card border-input focus-visible:ring-primary"
-                                placeholder="Durée"
+                                placeholder="Duration"
                               />
                             </div>
                           </div>

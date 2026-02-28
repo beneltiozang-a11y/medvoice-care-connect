@@ -28,43 +28,34 @@ export interface ConsultationSummaryResponse {
 export async function fetchConsultationSummary(
   req: ConsultationSummaryRequest
 ): Promise<ConsultationSummaryResponse> {
-  // ── Future real implementation ──
-  // const res = await fetch("/api/consultation/summary", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(req),
-  // });
-  // if (!res.ok) throw new Error(`API error: ${res.status}`);
-  // return res.json();
-
   // ── Mock implementation (demo) ──
   await new Promise((r) => setTimeout(r, 2000));
 
   return {
     summary:
-      "Patient présentant une douleur pharyngée depuis 3 jours avec fièvre à 38.5°C, dysphagie et adénopathies cervicales sensibles. Tableau compatible avec une angine bactérienne.",
+      "Patient presenting with pharyngeal pain for 3 days with fever at 38.5°C, dysphagia, and tender cervical lymphadenopathy. Clinical picture consistent with bacterial tonsillitis.",
     detectedSymptoms: [
-      "Douleur gorge",
-      "Fièvre 38.5°C",
-      "Dysphagie",
-      "Adénopathies",
+      "Sore throat",
+      "Fever 38.5°C",
+      "Dysphagia",
+      "Lymphadenopathy",
     ],
     diagnoses: [
-      "Angine bactérienne (streptocoque probable)",
-      "Pharyngite aiguë",
-      "Infection virale des VAS",
+      "Bacterial tonsillitis (probable streptococcal)",
+      "Acute pharyngitis",
+      "Upper respiratory tract viral infection",
     ],
     prescription: {
       medications: [
-        { name: "Amoxicilline", dosage: "1g", frequency: "3 fois par jour", duration: "6 jours" },
-        { name: "Paracétamol", dosage: "1000mg", frequency: "Toutes les 6h si douleur", duration: "5 jours" },
-        { name: "Hexaspray", dosage: "2 pulvérisations", frequency: "3 fois par jour", duration: "5 jours" },
+        { name: "Amoxicillin", dosage: "1g", frequency: "3 times daily", duration: "6 days" },
+        { name: "Acetaminophen", dosage: "1000mg", frequency: "Every 6h as needed for pain", duration: "5 days" },
+        { name: "Hexaspray", dosage: "2 sprays", frequency: "3 times daily", duration: "5 days" },
       ],
       additionalAdvice: [
-        "Repos vocal recommandé",
-        "Hydratation abondante (1.5L/jour minimum)",
-        "Éviter les aliments irritants",
-        "Reconsulter si fièvre persiste au-delà de 48h",
+        "Vocal rest recommended",
+        "Stay well hydrated (at least 1.5L/day)",
+        "Avoid irritating foods",
+        "Follow up if fever persists beyond 48h",
       ],
     },
   };

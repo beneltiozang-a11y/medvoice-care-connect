@@ -83,15 +83,15 @@ export const patients: Patient[] = [
     firstName: "Marie",
     lastName: "Dupont",
     dateOfBirth: "1978-06-15",
-    phone: "06 12 34 56 78",
+    phone: "+1 555-123-4567",
     email: "marie.dupont@email.com",
     bloodType: "A+",
-    allergies: ["Pénicilline", "Arachides"],
+    allergies: ["Penicillin", "Peanuts"],
     antecedents: [
-      "Hypertension artérielle (depuis 2019)",
-      "Appendicectomie (2005)",
-      "Fracture poignet droit (2012)",
-      "Antécédents familiaux : diabète type 2 (père)",
+      "Arterial hypertension (since 2019)",
+      "Appendectomy (2005)",
+      "Right wrist fracture (2012)",
+      "Family history: type 2 diabetes (father)",
     ],
   },
   {
@@ -99,22 +99,22 @@ export const patients: Patient[] = [
     firstName: "Jean",
     lastName: "Martin",
     dateOfBirth: "1985-03-22",
-    phone: "06 98 76 54 32",
+    phone: "+1 555-987-6543",
     email: "jean.martin@email.com",
     bloodType: "O-",
-    allergies: ["Aspirine"],
-    antecedents: ["Asthme chronique (depuis 2010)", "Entorse cheville gauche (2018)"],
+    allergies: ["Aspirin"],
+    antecedents: ["Chronic asthma (since 2010)", "Left ankle sprain (2018)"],
   },
   {
     id: "3",
     firstName: "Sophie",
     lastName: "Bernard",
     dateOfBirth: "1992-11-08",
-    phone: "06 55 44 33 22",
+    phone: "+1 555-444-3322",
     email: "sophie.bernard@email.com",
     bloodType: "B+",
     allergies: [],
-    antecedents: ["Migraine chronique (depuis 2020)"],
+    antecedents: ["Chronic migraine (since 2020)"],
   },
 ];
 
@@ -130,11 +130,11 @@ export const appointments: Appointment[] = [
     date: today,
     time: "09:00",
     doctor: "Dr. Laurent Martin",
-    doctorSpecialty: "Médecin généraliste",
-    motif: "Suivi tensions artérielles",
+    doctorSpecialty: "General Practitioner",
+    motif: "Blood pressure follow-up",
     status: "done",
     aiSummary:
-      "La patiente a appelé pour un suivi de sa tension artérielle. Elle mentionne des vertiges matinaux depuis 1 semaine. L'agent a recommandé de maintenir le traitement actuel et de venir avec ses relevés tensionnels des 2 dernières semaines.",
+      "The patient called for a blood pressure follow-up. She mentions morning dizziness for the past week. The agent recommended maintaining the current treatment and bringing blood pressure readings from the last 2 weeks.",
   },
   {
     id: "2",
@@ -143,11 +143,11 @@ export const appointments: Appointment[] = [
     date: today,
     time: "10:30",
     doctor: "Dr. Laurent Martin",
-    doctorSpecialty: "Médecin généraliste",
-    motif: "Crise d'asthme récurrente",
+    doctorSpecialty: "General Practitioner",
+    motif: "Recurring asthma attacks",
     status: "upcoming",
     aiSummary:
-      "Le patient signale une augmentation de la fréquence des crises d'asthme, surtout la nuit. Il utilise son inhalateur de secours 3-4 fois par semaine au lieu d'une fois. Pas de modification récente de l'environnement.",
+      "The patient reports an increase in asthma attack frequency, especially at night. He uses his rescue inhaler 3-4 times per week instead of once. No recent environmental changes.",
   },
   {
     id: "3",
@@ -156,11 +156,11 @@ export const appointments: Appointment[] = [
     date: today,
     time: "11:30",
     doctor: "Dr. Laurent Martin",
-    doctorSpecialty: "Médecin généraliste",
-    motif: "Migraines persistantes",
+    doctorSpecialty: "General Practitioner",
+    motif: "Persistent migraines",
     status: "upcoming",
     aiSummary:
-      "La patiente souffre de migraines 4 à 5 fois par semaine depuis un mois, avec photophobie et nausées. Le traitement actuel (paracétamol) ne suffit plus. Elle demande un ajustement thérapeutique.",
+      "The patient suffers from migraines 4 to 5 times a week for the past month, with photophobia and nausea. Current treatment (acetaminophen) is no longer sufficient. She requests a therapeutic adjustment.",
   },
   {
     id: "4",
@@ -169,11 +169,11 @@ export const appointments: Appointment[] = [
     date: today,
     time: "14:00",
     doctor: "Dr. Laurent Martin",
-    doctorSpecialty: "Médecin généraliste",
-    motif: "Toux persistante",
+    doctorSpecialty: "General Practitioner",
+    motif: "Persistent cough",
     status: "upcoming",
     aiSummary:
-      "La patiente tousse depuis 3 semaines. Toux sèche, non productive, sans fièvre. Pas de tabagisme. L'agent a recommandé une consultation pour investigation complémentaire.",
+      "The patient has been coughing for 3 weeks. Dry, non-productive cough, no fever. Non-smoker. The agent recommended a consultation for further investigation.",
   },
   {
     id: "5",
@@ -182,11 +182,11 @@ export const appointments: Appointment[] = [
     date: today,
     time: "15:30",
     doctor: "Dr. Laurent Martin",
-    doctorSpecialty: "Médecin généraliste",
-    motif: "Douleurs lombaires",
+    doctorSpecialty: "General Practitioner",
+    motif: "Lower back pain",
     status: "upcoming",
     aiSummary:
-      "Le patient décrit des douleurs lombaires basses depuis 2 semaines, irradiant dans la jambe droite. Apparition après un effort de levage. Pas de perte de sensibilité.",
+      "The patient describes lower back pain for 2 weeks, radiating to the right leg. Onset after a lifting effort. No loss of sensation.",
   },
 ];
 
@@ -194,16 +194,16 @@ export const appointments: Appointment[] = [
 
 export const pastAppointments: Record<string, PastAppointment[]> = {
   "1": [
-    { date: "2026-02-15", motif: "Renouvellement ordonnance", doctor: "Dr. Martin", summary: "Renouvellement traitement hypertension. Résultats satisfaisants." },
-    { date: "2026-01-20", motif: "Douleurs thoraciques", doctor: "Dr. Leclerc", summary: "Bilan cardiaque normal. Stress identifié comme cause probable." },
-    { date: "2025-11-10", motif: "Bilan annuel", doctor: "Dr. Martin", summary: "Bilan sanguin complet. Cholestérol légèrement élevé." },
+    { date: "2026-02-15", motif: "Prescription renewal", doctor: "Dr. Martin", summary: "Hypertension treatment renewal. Satisfactory results." },
+    { date: "2026-01-20", motif: "Chest pain", doctor: "Dr. Leclerc", summary: "Normal cardiac assessment. Stress identified as probable cause." },
+    { date: "2025-11-10", motif: "Annual checkup", doctor: "Dr. Martin", summary: "Complete blood panel. Slightly elevated cholesterol." },
   ],
   "2": [
-    { date: "2026-02-01", motif: "Crise d'asthme", doctor: "Dr. Martin", summary: "Crise modérée. Ajustement posologie Ventoline." },
-    { date: "2025-12-15", motif: "Bilan respiratoire", doctor: "Dr. Benali", summary: "EFR satisfaisantes. Maintien traitement de fond." },
+    { date: "2026-02-01", motif: "Asthma attack", doctor: "Dr. Martin", summary: "Moderate attack. Ventolin dosage adjustment." },
+    { date: "2025-12-15", motif: "Respiratory assessment", doctor: "Dr. Benali", summary: "Satisfactory pulmonary function tests. Maintenance therapy continued." },
   ],
   "3": [
-    { date: "2026-01-28", motif: "Migraines", doctor: "Dr. Martin", summary: "Prescription Sumatriptan. Tenu journal des crises." },
+    { date: "2026-01-28", motif: "Migraines", doctor: "Dr. Martin", summary: "Sumatriptan prescription. Headache diary started." },
   ],
 };
 
@@ -216,10 +216,10 @@ export const calls: CallRecord[] = [
     appointmentId: "1",
     date: "2026-02-27",
     duration: "8 min",
-    motif: "Prise de RDV — Suivi tensions",
-    symptoms: ["Vertiges matinaux", "Céphalées"],
-    summary: "La patiente a contacté l'assistant pour planifier un suivi de ses tensions artérielles.",
-    recommendations: ["Mesurer la tension matin et soir", "Apporter les relevés au RDV"],
+    motif: "Appointment booking — BP follow-up",
+    symptoms: ["Morning dizziness", "Headaches"],
+    summary: "The patient contacted the assistant to schedule a blood pressure follow-up.",
+    recommendations: ["Measure blood pressure morning and evening", "Bring readings to the appointment"],
     evolution: "stable",
     urgencyScore: 4,
   },
@@ -229,10 +229,10 @@ export const calls: CallRecord[] = [
     appointmentId: "2",
     date: "2026-02-26",
     duration: "6 min",
-    motif: "Prise de RDV — Asthme",
-    symptoms: ["Dyspnée nocturne", "Sifflements"],
-    summary: "Le patient signale une augmentation des crises d'asthme nocturnes.",
-    recommendations: ["Éviter les allergènes", "Utiliser le peak flow quotidiennement"],
+    motif: "Appointment booking — Asthma",
+    symptoms: ["Nocturnal dyspnea", "Wheezing"],
+    summary: "The patient reports an increase in nocturnal asthma attacks.",
+    recommendations: ["Avoid allergens", "Use peak flow meter daily"],
     evolution: "worsening",
     urgencyScore: 5,
   },
@@ -241,40 +241,40 @@ export const calls: CallRecord[] = [
 // ─── Mock transcript for consultation simulation ───
 
 export const mockTranscriptSteps: TranscriptMessage[] = [
-  { role: "patient", text: "Bonjour docteur, j'ai mal à la gorge depuis 3 jours.", timestamp: "00:00" },
-  { role: "doctor", text: "Bonjour. Pouvez-vous me décrire la douleur ? Est-ce constant ?", timestamp: "00:12" },
-  { role: "patient", text: "Oui, c'est constant et ça empire quand j'avale.", timestamp: "00:25" },
-  { role: "doctor", text: "Avez-vous de la fièvre ?", timestamp: "00:35" },
-  { role: "patient", text: "Oui, autour de 38.5°C hier soir.", timestamp: "00:42" },
-  { role: "doctor", text: "Des ganglions gonflés au niveau du cou ?", timestamp: "00:55" },
-  { role: "patient", text: "Je crois que oui, c'est sensible quand j'appuie.", timestamp: "01:05" },
-  { role: "doctor", text: "Depuis combien de temps exactement ?", timestamp: "01:18" },
-  { role: "patient", text: "Ça a commencé lundi, donc 3 jours.", timestamp: "01:28" },
-  { role: "doctor", text: "D'accord. Je vais vous examiner. Ouvrez la bouche.", timestamp: "01:40" },
+  { role: "patient", text: "Hello doctor, I've had a sore throat for 3 days.", timestamp: "00:00" },
+  { role: "doctor", text: "Hello. Can you describe the pain? Is it constant?", timestamp: "00:12" },
+  { role: "patient", text: "Yes, it's constant and it gets worse when I swallow.", timestamp: "00:25" },
+  { role: "doctor", text: "Do you have a fever?", timestamp: "00:35" },
+  { role: "patient", text: "Yes, around 38.5°C last night.", timestamp: "00:42" },
+  { role: "doctor", text: "Any swollen lymph nodes in your neck?", timestamp: "00:55" },
+  { role: "patient", text: "I think so, it's tender when I press on it.", timestamp: "01:05" },
+  { role: "doctor", text: "How long exactly has this been going on?", timestamp: "01:18" },
+  { role: "patient", text: "It started on Monday, so 3 days.", timestamp: "01:28" },
+  { role: "doctor", text: "Alright. I'm going to examine you. Open your mouth.", timestamp: "01:40" },
 ];
 
 export const mockAIPrescription: Prescription = {
   medications: [
-    { name: "Amoxicilline", dosage: "1g", frequency: "3 fois par jour", duration: "6 jours" },
-    { name: "Paracétamol", dosage: "1000mg", frequency: "Toutes les 6h si douleur", duration: "5 jours" },
-    { name: "Hexaspray", dosage: "2 pulvérisations", frequency: "3 fois par jour", duration: "5 jours" },
+    { name: "Amoxicillin", dosage: "1g", frequency: "3 times daily", duration: "6 days" },
+    { name: "Acetaminophen", dosage: "1000mg", frequency: "Every 6h as needed for pain", duration: "5 days" },
+    { name: "Hexaspray", dosage: "2 sprays", frequency: "3 times daily", duration: "5 days" },
   ],
   additionalAdvice: [
-    "Repos vocal recommandé",
-    "Hydratation abondante (1.5L/jour minimum)",
-    "Éviter les aliments irritants",
-    "Reconsulter si fièvre persiste au-delà de 48h",
+    "Vocal rest recommended",
+    "Stay well hydrated (at least 1.5L/day)",
+    "Avoid irritating foods",
+    "Follow up if fever persists beyond 48h",
   ],
 };
 
 export const mockDiagnoses = [
-  "Angine bactérienne (streptocoque probable)",
-  "Pharyngite aiguë",
-  "Infection virale des VAS",
+  "Bacterial tonsillitis (probable streptococcal)",
+  "Acute pharyngitis",
+  "Upper respiratory tract viral infection",
 ];
 
 export const notifications: Notification[] = [
-  { id: "1", type: "reminder", message: "RDV avec Marie Dupont dans 30 min", date: today, read: false },
-  { id: "2", type: "alert", message: "Résultat labo Jean Martin disponible", date: today, read: false },
-  { id: "3", type: "document", message: "Ordonnance à signer", date: today, read: true },
+  { id: "1", type: "reminder", message: "Appointment with Marie Dupont in 30 min", date: today, read: false },
+  { id: "2", type: "alert", message: "Lab results for Jean Martin available", date: today, read: false },
+  { id: "3", type: "document", message: "Prescription awaiting signature", date: today, read: true },
 ];

@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Droplets, AlertTriangle, Calendar } from "lucide-react";
 import { format, differenceInYears, parseISO } from "date-fns";
-import { fr } from "date-fns/locale";
 
 export default function Patients() {
   return (
@@ -27,7 +26,7 @@ export default function Patients() {
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <CardTitle className="text-lg">{p.firstName} {p.lastName}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{age} ans · {p.phone} · {p.email}</p>
+                    <p className="text-sm text-muted-foreground">{age} yrs · {p.phone} · {p.email}</p>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Droplets className="h-4 w-4" />
@@ -57,7 +56,7 @@ export default function Patients() {
                   <div className="flex items-start gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground mt-0.5" />
                     <p className="text-sm text-muted-foreground">
-                      Dernier RDV : {format(parseISO(history[0].date), "d MMM yyyy", { locale: fr })} — {history[0].motif}
+                      Last visit: {format(parseISO(history[0].date), "MMM d, yyyy")} — {history[0].motif}
                     </p>
                   </div>
                 )}
