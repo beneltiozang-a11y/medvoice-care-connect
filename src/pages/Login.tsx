@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Activity } from "lucide-react";
+import { ClerkLogoMark } from "@/components/ClerkLogo";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,12 +33,12 @@ export default function Login() {
       <div className="w-full max-w-sm space-y-0">
         {/* Logo area */}
         <div className="text-center space-y-3 pb-7">
-          <div className="mx-auto h-11 w-11 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-            <Activity className="h-5 w-5 text-primary" />
+          <div className="mx-auto h-11 w-11 rounded-[10px] bg-primary/10 border border-primary/20 flex items-center justify-center">
+            <ClerkLogoMark className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-foreground tracking-tight">MedVoice</h1>
-            <p className="text-xs text-muted-foreground mt-1 tracking-wide">Clinical AI Assistant</p>
+            <h1 className="text-xl font-semibold text-foreground tracking-tight">Clerk</h1>
+            <p className="text-xs text-muted-foreground mt-1 tracking-wide">Your AI medical scribe</p>
           </div>
         </div>
 
@@ -78,7 +78,7 @@ export default function Login() {
           </Button>
 
           <div className="text-[11px] text-center text-muted-foreground space-y-1 pt-3">
-            <p>Docteur : <span className="text-foreground/60 font-mono text-[10px]">dr.martin@medvoice.fr</span></p>
+            <p>Docteur : <span className="text-foreground/60 font-mono text-[10px]">dr.martin@clerk.fr</span></p>
             <p>Patient : <span className="text-foreground/60 font-mono text-[10px]">marie.dupont@email.com</span></p>
             <p className="text-[10px] text-muted-foreground/60 mt-1.5">Mot de passe : n'importe lequel</p>
           </div>

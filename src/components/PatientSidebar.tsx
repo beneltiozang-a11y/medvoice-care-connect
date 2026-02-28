@@ -1,4 +1,5 @@
-import { Calendar, LogOut, Activity } from "lucide-react";
+import { Calendar, LogOut } from "lucide-react";
+import { ClerkLogoMark } from "@/components/ClerkLogo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -30,10 +31,10 @@ export function PatientSidebar() {
     <Sidebar collapsible="none" className="border-r border-border">
       <SidebarContent className="pt-5">
         <div className="px-4 mb-6 flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <Activity className="h-4 w-4 text-primary" />
+          <div className="h-8 w-8 rounded-[10px] bg-primary/10 flex items-center justify-center shrink-0">
+            <ClerkLogoMark className="h-4 w-4 text-primary" />
           </div>
-          <span className="text-sm font-semibold text-foreground tracking-tight">MedVoice</span>
+          <span className="text-sm font-semibold text-foreground tracking-tight">Clerk</span>
         </div>
 
         <SidebarMenu className="px-2 space-y-1">
