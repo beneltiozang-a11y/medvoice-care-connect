@@ -66,6 +66,9 @@ export default {
           foreground: "hsl(var(--success-foreground))",
         },
       },
+      fontFamily: {
+        sans: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
