@@ -32,7 +32,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="none">
       <SidebarContent className="pt-5">
         {/* Logo */}
         <div className="px-4 mb-6 flex items-center gap-2.5">

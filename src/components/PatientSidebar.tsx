@@ -27,7 +27,7 @@ export function PatientSidebar() {
     : "PT";
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="none">
       <SidebarContent className="pt-5">
         <div className="px-4 mb-6 flex items-center gap-2.5">
           <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
