@@ -13,8 +13,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
   const login = (email: string, _password: string) => {
-    // Mock authentication
-    setUser({ email, name: "Marie Dupont" });
+    setUser({ email, name: "Dr. Laurent Martin" });
     return true;
   };
 
