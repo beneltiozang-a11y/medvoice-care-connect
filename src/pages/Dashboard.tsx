@@ -1,26 +1,25 @@
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { appointments, patients } from "@/data/mockData";
 
 const statusConfig: Record<string, { label: string; borderColor: string; dotColor: string; badgeBg: string; badgeText: string }> = {
   upcoming: {
-    label: "À venir",
+    label: "Upcoming",
     borderColor: "border-l-primary",
     dotColor: "bg-primary",
     badgeBg: "bg-secondary",
     badgeText: "text-primary",
   },
   "in-progress": {
-    label: "En cours",
+    label: "In Progress",
     borderColor: "border-l-warning",
     dotColor: "bg-warning",
     badgeBg: "bg-[#FEF3C7]",
     badgeText: "text-[#B45309]",
   },
   done: {
-    label: "Terminé",
+    label: "Done",
     borderColor: "border-l-muted-foreground/40",
     dotColor: "bg-muted-foreground/40",
     badgeBg: "bg-muted",
@@ -63,10 +62,10 @@ export default function Dashboard() {
     <div className="max-w-3xl mx-auto space-y-8">
       <div>
         <h1 className="text-xl font-semibold text-foreground">
-          {format(today, "EEEE d MMMM", { locale: fr })}
+          {format(today, "EEEE, MMMM d")}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          {todayAppts.length} rendez-vous aujourd'hui
+          {todayAppts.length} appointment{todayAppts.length !== 1 ? "s" : ""} today
         </p>
       </div>
 
@@ -139,7 +138,7 @@ export default function Dashboard() {
 
         {todayAppts.length === 0 && (
           <div className="text-center py-16 text-muted-foreground text-sm">
-            Aucun rendez-vous aujourd'hui
+            No appointments today
           </div>
         )}
       </div>

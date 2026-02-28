@@ -19,20 +19,20 @@ import {
 const mainNav = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, active: true },
   { title: "Patients", url: "/patients", icon: Users },
-  { title: "Agenda", icon: Calendar },
-  { title: "Messagerie", icon: MessageSquare, badge: "3" },
-  { title: "Ordonnances", icon: FileText },
-  { title: "Statistiques", icon: BarChart3 },
+  { title: "Schedule", icon: Calendar },
+  { title: "Messages", icon: MessageSquare, badge: "3" },
+  { title: "Prescriptions", icon: FileText },
+  { title: "Analytics", icon: BarChart3 },
 ];
 
 const toolsNav = [
-  { title: "Intelligence AI", icon: Sparkles },
+  { title: "AI Intelligence", icon: Sparkles },
   { title: "Speechmatics", icon: Mic },
 ];
 
 const supportNav = [
   { title: "Documentation", icon: BookOpen },
-  { title: "Paramètres", icon: Settings },
+  { title: "Settings", icon: Settings },
 ];
 
 const sectionLabel = "text-[11px] uppercase tracking-[0.08em] text-[#9BA8B5] font-medium px-3 mb-1.5";
@@ -40,7 +40,7 @@ const sectionLabel = "text-[11px] uppercase tracking-[0.08em] text-[#9BA8B5] fon
 function ComingSoonButton({ item }: { item: { title: string; icon: React.ElementType; badge?: string } }) {
   return (
     <button
-      onClick={() => toast.info(`${item.title} — bientôt disponible`)}
+      onClick={() => toast.info(`${item.title} — coming soon`)}
       className="flex items-center gap-3 px-3 py-2 rounded-md text-[#6B7A8D] hover:bg-[#F0F5FF] hover:text-primary transition-colors text-sm w-full group"
     >
       <item.icon className="h-[18px] w-[18px] shrink-0 text-[#6B7A8D] group-hover:text-primary transition-colors" />
@@ -105,12 +105,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Divider + Outils */}
+        {/* Divider + Tools */}
         <div className="px-3 mt-6">
           <div className="h-px bg-border" />
         </div>
         <SidebarGroup className="mt-4">
-          <p className={sectionLabel}>Outils</p>
+          <p className={sectionLabel}>Tools</p>
           <SidebarGroupContent>
             <SidebarMenu>
               {toolsNav.map((item) => (
@@ -154,7 +154,7 @@ export function AppSidebar() {
             </div>
             <div className="min-w-0">
               <p className="text-xs font-medium text-foreground truncate">Dr. Laurent Martin</p>
-              <p className="text-[10px] text-muted-foreground">Médecin généraliste</p>
+              <p className="text-[10px] text-muted-foreground">General Practitioner</p>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export function AppSidebar() {
                 className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:text-destructive hover:bg-muted transition-colors w-full text-sm"
               >
                 <LogOut className="h-4 w-4 shrink-0" />
-                <span>Déconnexion</span>
+                <span>Sign out</span>
               </button>
             </SidebarMenuButton>
           </SidebarMenuItem>

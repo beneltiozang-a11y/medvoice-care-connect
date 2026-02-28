@@ -17,14 +17,14 @@ export default function Login() {
     e.preventDefault();
     setError("");
     if (!email || !password) {
-      setError("Veuillez remplir tous les champs.");
+      setError("Please fill in all fields.");
       return;
     }
     const success = login(email, password);
     if (success) {
       navigate("/");
     } else {
-      setError("Identifiants incorrects.");
+      setError("Invalid credentials.");
     }
   };
 
@@ -60,7 +60,7 @@ export default function Login() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-[11px] text-muted-foreground uppercase tracking-wider font-normal">Mot de passe</Label>
+            <Label htmlFor="password" className="text-[11px] text-muted-foreground uppercase tracking-wider font-normal">Password</Label>
             <Input
               id="password"
               type="password"
@@ -74,13 +74,13 @@ export default function Login() {
           {error && <p className="text-sm text-destructive">{error}</p>}
 
           <Button type="submit" className="w-full h-11 font-medium">
-            Se connecter
+            Sign in
           </Button>
 
           <div className="text-[11px] text-center text-muted-foreground space-y-1 pt-3">
-            <p>Docteur : <span className="text-foreground/60 font-mono text-[10px]">dr.martin@clerk.fr</span></p>
-            <p>Patient : <span className="text-foreground/60 font-mono text-[10px]">marie.dupont@email.com</span></p>
-            <p className="text-[10px] text-muted-foreground/60 mt-1.5">Mot de passe : n'importe lequel</p>
+            <p>Doctor: <span className="text-foreground/60 font-mono text-[10px]">dr.martin@clerk.fr</span></p>
+            <p>Patient: <span className="text-foreground/60 font-mono text-[10px]">marie.dupont@email.com</span></p>
+            <p className="text-[10px] text-muted-foreground/60 mt-1.5">Password: anything</p>
           </div>
         </form>
       </div>
