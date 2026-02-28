@@ -1,19 +1,40 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+type UserRole = "doctor" | "patient";
+
+interface User {
+  email: string;
+  name: string;
+  role: UserRole;
+  patientId?: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: { email: string; name: string } | null;
+  user: User | null;
   login: (email: string, password: string) => boolean;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+// Mock user mapping
+const MOCK_USERS: Record<string, User> = {
+  "dr.martin@medvoice.fr": { email: "dr.martin@medvoice.fr", name: "Dr. Laurent Martin", role: "doctor" },
+  "marie.dupont@email.com": { email: "marie.dupont@email.com", name: "Marie Dupont", role: "patient", patientId: "1" },
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const login = (email: string, _password: string) => {
-    setUser({ email, name: "Dr. Laurent Martin" });
+    const found = MOCK_USERS[email.toLowerCase()];
+    if (found) {
+      setUser(found);
+      return true;
+    }
+    // Default to doctor for unknown emails (backward compat)
+    setUser({ email, name: "Dr. Laurent Martin", role: "doctor" });
     return true;
   };
 

@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Activity } from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState("dr.martin@medvoice.fr");
-  const [password, setPassword] = useState("demo1234");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,8 +21,12 @@ export default function Login() {
       return;
     }
     const success = login(email, password);
-    if (success) navigate("/");
-    else setError("Identifiants incorrects.");
+    if (success) {
+      // Redirect handled by App routing based on role
+      navigate("/");
+    } else {
+      setError("Identifiants incorrects.");
+    }
   };
 
   return (
@@ -65,9 +69,11 @@ export default function Login() {
             Se connecter
           </Button>
 
-          <p className="text-xs text-center text-muted-foreground">
-            Prototype — Cliquez directement sur "Se connecter"
-          </p>
+          <div className="text-xs text-center text-muted-foreground space-y-1">
+            <p>Docteur : <span className="text-foreground/70 font-mono">dr.martin@medvoice.fr</span></p>
+            <p>Patient : <span className="text-foreground/70 font-mono">marie.dupont@email.com</span></p>
+            <p className="text-[10px] mt-1">Mot de passe : n'importe lequel</p>
+          </div>
         </form>
       </div>
     </div>
