@@ -4,42 +4,42 @@ import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { appointments, patients } from "@/data/mockData";
 
-const statusConfig: Record<string, { label: string; borderColor: string; dotColor: string }> = {
+const statusConfig: Record<string, { label: string; borderColor: string; dotColor: string; badgeBg: string; badgeText: string }> = {
   upcoming: {
     label: "À venir",
-    borderColor: "border-l-[hsl(174,35%,45%)]",
-    dotColor: "bg-[hsl(174,30%,50%)]",
+    borderColor: "border-l-primary",
+    dotColor: "bg-primary",
+    badgeBg: "bg-secondary",
+    badgeText: "text-primary",
   },
   "in-progress": {
     label: "En cours",
-    borderColor: "border-l-[hsl(35,70%,55%)]",
-    dotColor: "bg-[hsl(35,65%,55%)]",
+    borderColor: "border-l-warning",
+    dotColor: "bg-warning",
+    badgeBg: "bg-[#FEF3C7]",
+    badgeText: "text-[#B45309]",
   },
   done: {
     label: "Terminé",
-    borderColor: "border-l-[hsl(220,10%,35%)]",
-    dotColor: "bg-[hsl(220,10%,40%)]",
+    borderColor: "border-l-muted-foreground/40",
+    dotColor: "bg-muted-foreground/40",
+    badgeBg: "bg-muted",
+    badgeText: "text-muted-foreground",
   },
 };
 
 function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 }
 
 function getInitialsBg(patientId: string) {
   const colors = [
-    "bg-[hsl(174,25%,22%)] text-[hsl(174,30%,55%)]",
-    "bg-[hsl(260,20%,22%)] text-[hsl(260,25%,60%)]",
-    "bg-[hsl(35,25%,22%)] text-[hsl(35,35%,60%)]",
-    "bg-[hsl(340,20%,22%)] text-[hsl(340,25%,55%)]",
+    "bg-primary/10 text-primary",
+    "bg-[#F3E8FF] text-[#7C3AED]",
+    "bg-[#FEF3C7] text-[#B45309]",
+    "bg-[#FCE7F3] text-[#DB2777]",
   ];
-  const idx = parseInt(patientId, 10) % colors.length;
-  return colors[idx];
+  return colors[parseInt(patientId, 10) % colors.length];
 }
 
 export default function Dashboard() {
@@ -50,19 +50,13 @@ export default function Dashboard() {
     .filter((a) => a.date === format(today, "yyyy-MM-dd"))
     .sort((a, b) => a.time.localeCompare(b.time));
 
-  // Find the next upcoming appointment
   const now = format(today, "HH:mm");
-  const nextUpcomingId = todayAppts.find(
-    (a) => a.status === "upcoming" && a.time >= now
-  )?.id;
+  const nextUpcomingId = todayAppts.find((a) => a.status === "upcoming" && a.time >= now)?.id;
 
-  // Day progress: 8:00 to 18:00
   const dayStartHour = 8;
   const dayEndHour = 18;
   const currentHour = today.getHours() + today.getMinutes() / 60;
   const dayProgress = Math.max(0, Math.min(100, ((currentHour - dayStartHour) / (dayEndHour - dayStartHour)) * 100));
-
-  // Time markers
   const timeMarkers = Array.from({ length: dayEndHour - dayStartHour + 1 }, (_, i) => dayStartHour + i);
 
   return (
@@ -78,8 +72,7 @@ export default function Dashboard() {
 
       {/* Day progress bar */}
       <div className="space-y-1.5">
-        <div className="relative h-1.5 rounded-full bg-secondary overflow-visible">
-          {/* Appointment markers */}
+        <div className="relative h-1.5 rounded-full bg-muted overflow-visible">
           {todayAppts.map((a) => {
             const [h, m] = a.time.split(":").map(Number);
             const pos = ((h + m / 60 - dayStartHour) / (dayEndHour - dayStartHour)) * 100;
@@ -88,22 +81,21 @@ export default function Dashboard() {
             return (
               <div
                 key={a.id}
-                className={`absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor} ring-2 ring-background`}
+                className={`absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full ${cfg.dotColor} ring-2 ring-background`}
                 style={{ left: `${pos}%` }}
               />
             );
           })}
-          {/* Current time marker */}
           {dayProgress > 0 && dayProgress < 100 && (
             <div
-              className="absolute top-1/2 -translate-y-1/2 w-0.5 h-4 bg-foreground/60 rounded-full"
+              className="absolute top-1/2 -translate-y-1/2 w-0.5 h-4 bg-foreground/40 rounded-full"
               style={{ left: `${dayProgress}%` }}
             />
           )}
         </div>
         <div className="flex justify-between">
           {timeMarkers.filter((_, i) => i % 2 === 0).map((h) => (
-            <span key={h} className="text-[10px] text-muted-foreground/50 font-mono">
+            <span key={h} className="text-[10px] text-muted-foreground font-mono">
               {String(h).padStart(2, "0")}:00
             </span>
           ))}
@@ -120,34 +112,26 @@ export default function Dashboard() {
               key={a.id}
               onClick={() => navigate(`/appointments/${a.id}`)}
               className={`
-                w-full text-left px-4 py-3.5 rounded-lg border border-border
+                w-full text-left px-4 py-3.5 rounded-lg border border-border shadow-[0_1px_3px_rgba(0,0,0,0.08)]
                 border-l-[3px] ${status.borderColor}
-                hover:border-[hsl(174,20%,30%)] transition-all duration-150 group flex items-center gap-4
-                ${isNext ? "bg-[hsl(220,18%,12%)]" : "bg-card"}
+                hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] transition-all duration-150 group flex items-center gap-4
+                ${isNext ? "bg-secondary" : "bg-card"}
               `}
             >
-              {/* Patient initials avatar */}
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold shrink-0 ${getInitialsBg(a.patientId)}`}>
                 {getInitials(a.patientName)}
               </div>
-
-              {/* Time */}
               <div className="text-sm font-mono text-muted-foreground w-12 shrink-0">
                 {a.time}
               </div>
-
-              {/* Content */}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-foreground text-sm">{a.patientName}</p>
                 <p className="text-sm text-muted-foreground truncate">{a.motif}</p>
               </div>
-
-              {/* Status badge — muted with dot */}
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className={`flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full text-[11px] font-medium ${status.badgeBg} ${status.badgeText}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${status.dotColor}`} />
-                <span className="text-[11px] text-muted-foreground">{status.label}</span>
+                {status.label}
               </div>
-
               <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </button>
           );
