@@ -254,7 +254,7 @@ export default function AppointmentDetail() {
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-2 py-3 border-b border-border shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-4 w-4" />
@@ -271,7 +271,11 @@ export default function AppointmentDetail() {
           )}
         </div>
         {!consultationEnded && (
-          <Button onClick={endConsultation} variant="destructive" size="sm" className="gap-2">
+          <Button
+            onClick={endConsultation}
+            size="sm"
+            className="gap-2 bg-[hsl(0,40%,35%)] hover:bg-[hsl(0,40%,40%)] text-destructive-foreground border-none"
+          >
             <Square className="h-3 w-3" />
             End Appointment
           </Button>
@@ -292,11 +296,12 @@ export default function AppointmentDetail() {
       <div className="flex-1 flex overflow-hidden">
         {/* LEFT: Live Transcript */}
         <div className="flex-1 flex flex-col border-r border-border">
-          <div className="px-4 py-3 border-b border-border shrink-0">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Live Transcript</h3>
+          <div className="px-4 py-3 border-b border-border shrink-0 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-primary" />
+            <span className="text-xs font-medium text-foreground">Live Transcript</span>
           </div>
           <ScrollArea className="flex-1 p-4">
-            <div className="space-y-1">
+            <div className="space-y-2">
               <AnimatePresence>
                 {transcript.map((msg, i) => (
                   <motion.div
@@ -304,14 +309,14 @@ export default function AppointmentDetail() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`px-3 py-2 rounded text-sm transcript-text ${
+                    className={`px-4 py-3 rounded-lg text-sm ${
                       msg.role === "doctor"
-                        ? "bg-primary/5"
-                        : "bg-muted/50"
+                        ? "bg-[hsl(220,30%,14%)]"
+                        : "bg-muted/60"
                     }`}
                   >
                     <span className={`font-semibold text-xs mr-2 ${
-                      msg.role === "doctor" ? "text-primary" : "text-muted-foreground"
+                      msg.role === "doctor" ? "text-primary" : "text-foreground/70"
                     }`}>
                       {msg.role === "doctor" ? "Dr." : "Patient"}
                     </span>
@@ -350,8 +355,9 @@ export default function AppointmentDetail() {
         <div className="w-[420px] flex flex-col shrink-0">
           {/* Top half: AI Summary */}
           <div className="flex-1 flex flex-col border-b border-border overflow-hidden">
-            <div className="px-4 py-3 border-b border-border shrink-0">
-              <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">AI Summary</h3>
+            <div className="px-4 py-3 border-b border-border shrink-0 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <span className="text-xs font-medium text-foreground">AI Summary</span>
             </div>
             <ScrollArea className="flex-1 p-4">
               {aiSummary ? (
@@ -366,7 +372,9 @@ export default function AppointmentDetail() {
                       <p className="text-xs text-muted-foreground mb-2">Symptômes détectés</p>
                       <div className="flex flex-wrap gap-1">
                         {detectedSymptoms.map((s) => (
-                          <Badge key={s} variant="secondary" className="text-[10px]">{s}</Badge>
+                          <span key={s} className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-medium bg-primary/10 text-primary">
+                            {s}
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -396,7 +404,10 @@ export default function AppointmentDetail() {
           {/* Bottom half: Prescription */}
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-border shrink-0 flex items-center justify-between">
-              <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Prescription</h3>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-warning" />
+                <span className="text-xs font-medium text-foreground">Prescription</span>
+              </div>
               {validated && (
                 <Badge className="bg-success/10 text-success border-success/20 text-[10px]">Validée</Badge>
               )}
@@ -410,7 +421,7 @@ export default function AppointmentDetail() {
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
                   {/* Allergy warning */}
                   {hasAllergyConflict && !validated && (
-                    <div className="p-2.5 rounded bg-destructive/10 border border-destructive/20 flex items-start gap-2">
+                    <div className="p-2.5 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-2">
                       <AlertTriangle className="h-3.5 w-3.5 text-destructive shrink-0 mt-0.5" />
                       <p className="text-xs text-destructive">
                         Allergie pénicilline détectée — Amoxicilline incompatible
@@ -419,24 +430,36 @@ export default function AppointmentDetail() {
                   )}
 
                   {prescription.map((med, i) => (
-                    <div key={i} className="p-3 rounded bg-muted/30 border border-border space-y-2">
+                    <div key={i} className="p-4 rounded-lg bg-secondary border border-border space-y-3">
                       {!validated ? (
                         <>
                           <div className="flex items-center justify-between">
-                            <Input
-                              value={med.name}
-                              onChange={(e) => updateMed(i, "name", e.target.value)}
-                              className="h-7 text-sm bg-transparent border-none p-0 font-medium"
-                              placeholder="Médicament"
-                            />
-                            <button onClick={() => removeMed(i)} className="text-muted-foreground hover:text-destructive">
-                              <Trash2 className="h-3 w-3" />
+                            <div className="flex-1">
+                              <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Médicament</label>
+                              <Input
+                                value={med.name}
+                                onChange={(e) => updateMed(i, "name", e.target.value)}
+                                className="h-8 text-sm bg-muted/40 border-border font-medium"
+                                placeholder="Médicament"
+                              />
+                            </div>
+                            <button onClick={() => removeMed(i)} className="text-muted-foreground hover:text-destructive ml-2 mt-4">
+                              <Trash2 className="h-3.5 w-3.5" />
                             </button>
                           </div>
                           <div className="grid grid-cols-3 gap-2">
-                            <Input value={med.dosage} onChange={(e) => updateMed(i, "dosage", e.target.value)} className="h-6 text-xs bg-card" placeholder="Dosage" />
-                            <Input value={med.frequency} onChange={(e) => updateMed(i, "frequency", e.target.value)} className="h-6 text-xs bg-card" placeholder="Fréquence" />
-                            <Input value={med.duration} onChange={(e) => updateMed(i, "duration", e.target.value)} className="h-6 text-xs bg-card" placeholder="Durée" />
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Dosage</label>
+                              <Input value={med.dosage} onChange={(e) => updateMed(i, "dosage", e.target.value)} className="h-8 text-xs bg-muted/40 border-border" placeholder="Dosage" />
+                            </div>
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Fréquence</label>
+                              <Input value={med.frequency} onChange={(e) => updateMed(i, "frequency", e.target.value)} className="h-8 text-xs bg-muted/40 border-border" placeholder="Fréquence" />
+                            </div>
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Durée</label>
+                              <Input value={med.duration} onChange={(e) => updateMed(i, "duration", e.target.value)} className="h-8 text-xs bg-muted/40 border-border" placeholder="Durée" />
+                            </div>
                           </div>
                         </>
                       ) : (
@@ -450,18 +473,23 @@ export default function AppointmentDetail() {
 
                   {!validated && (
                     <>
-                      <button onClick={addMed} className="w-full py-2 rounded border border-dashed border-border text-xs text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center justify-center gap-1">
+                      <button onClick={addMed} className="w-full py-2.5 rounded-lg border border-dashed border-border text-xs text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center justify-center gap-1">
                         <Plus className="h-3 w-3" /> Add medication
                       </button>
-                      <Button onClick={() => setValidated(true)} className="w-full gap-2 mt-2" size="sm">
-                        <Send className="h-3.5 w-3.5" />
-                        Validate & Send
-                      </Button>
                     </>
                   )}
                 </motion.div>
               )}
             </ScrollArea>
+            {/* Validate button pinned at bottom */}
+            {showPrescription && !validated && (
+              <div className="p-4 border-t border-border shrink-0">
+                <Button onClick={() => setValidated(true)} className="w-full gap-2" size="default">
+                  <Send className="h-4 w-4" />
+                  Validate & Send
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
