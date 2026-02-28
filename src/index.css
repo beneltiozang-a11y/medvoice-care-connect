@@ -61,7 +61,3 @@
   }
 }
 
-/* Monospace transcript styling */
-.transcript-text {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
-}
