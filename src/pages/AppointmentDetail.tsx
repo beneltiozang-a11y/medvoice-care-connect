@@ -141,21 +141,25 @@ export default function AppointmentDetail() {
           Retour
         </button>
 
-        {/* Start button */}
+        {/* Header + Start button */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-foreground">{appointment.patientName}</h1>
             <p className="text-sm text-muted-foreground">{appointment.motif} · {appointment.time}</p>
           </div>
-          <Button onClick={startConsultation} className="gap-2">
+          <Button
+            onClick={startConsultation}
+            className="gap-2 h-11 px-6 text-sm font-semibold shadow-[0_0_20px_hsl(var(--primary)/0.25)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] animate-pulse"
+            style={{ animationDuration: "3s" }}
+          >
             <Play className="h-4 w-4" />
             Start Appointment
           </Button>
         </div>
 
-        {/* AI Briefing */}
+        {/* AI Briefing — teal accent border, lighter bg */}
         {appointment.aiSummary && (
-          <div className="rounded-lg bg-card border border-border p-5 space-y-3">
+          <div className="rounded-lg bg-secondary border border-border border-l-[3px] border-l-primary/60 p-5 space-y-3">
             <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
               <Stethoscope className="h-4 w-4 text-primary" />
               AI Phone Briefing
@@ -164,33 +168,38 @@ export default function AppointmentDetail() {
             {relatedCalls.length > 0 && (
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {relatedCalls[0].symptoms.map((s) => (
-                  <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>
+                  <span
+                    key={s}
+                    className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium bg-primary/10 text-primary"
+                  >
+                    {s}
+                  </span>
                 ))}
               </div>
             )}
           </div>
         )}
 
-        {/* Patient info */}
+        {/* Patient info — tighter grid */}
         <div className="rounded-lg bg-card border border-border p-5 space-y-4">
           <h2 className="text-sm font-medium text-foreground">Patient Profile</h2>
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <p className="text-muted-foreground text-xs">Âge</p>
-              <p className="text-foreground">{age} ans</p>
+          <div className="grid grid-cols-3 gap-3 text-sm">
+            <div className="rounded-md bg-muted/40 px-3 py-2.5">
+              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Âge</p>
+              <p className="text-foreground font-medium">{age} ans</p>
             </div>
-            <div>
-              <p className="text-muted-foreground text-xs">Groupe sanguin</p>
-              <p className="text-foreground">{patient.bloodType}</p>
+            <div className="rounded-md bg-muted/40 px-3 py-2.5">
+              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Groupe sanguin</p>
+              <p className="text-foreground font-medium">{patient.bloodType}</p>
             </div>
-            <div>
-              <p className="text-muted-foreground text-xs">Allergies</p>
-              <div className="flex gap-1 flex-wrap">
+            <div className="rounded-md bg-muted/40 px-3 py-2.5">
+              <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">Allergies</p>
+              <div className="flex gap-1 flex-wrap mt-0.5">
                 {patient.allergies.length > 0
                   ? patient.allergies.map((a) => (
                       <Badge key={a} variant="destructive" className="text-[10px]">{a}</Badge>
                     ))
-                  : <span className="text-foreground">Aucune</span>}
+                  : <span className="text-foreground text-sm">Aucune</span>}
               </div>
             </div>
           </div>
@@ -209,17 +218,26 @@ export default function AppointmentDetail() {
           )}
         </div>
 
-        {/* Patient history timeline */}
+        {/* Patient history timeline — vertical connector */}
         {history.length > 0 && (
           <div className="rounded-lg bg-card border border-border p-5 space-y-4">
             <h2 className="text-sm font-medium text-foreground">Historique</h2>
-            <div className="space-y-3">
+            <div className="relative">
               {history.map((h, i) => (
-                <div key={i} className="flex gap-4 text-sm">
-                  <div className="text-xs text-muted-foreground font-mono w-20 shrink-0 pt-0.5">
+                <div key={i} className="flex gap-4 text-sm relative">
+                  {/* Date */}
+                  <div className="text-xs text-muted-foreground font-mono w-20 shrink-0 pt-1">
                     {format(new Date(h.date), "dd MMM yy", { locale: fr })}
                   </div>
-                  <div className="flex-1 border-l border-border pl-4 pb-3">
+                  {/* Timeline dot + line */}
+                  <div className="flex flex-col items-center shrink-0">
+                    <div className="h-2.5 w-2.5 rounded-full bg-primary/50 border-2 border-primary/30 mt-1.5 z-10" />
+                    {i < history.length - 1 && (
+                      <div className="w-px flex-1 bg-border" />
+                    )}
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1 pb-5">
                     <p className="font-medium text-foreground text-sm">{h.motif}</p>
                     <p className="text-muted-foreground text-xs mt-1">{h.summary}</p>
                   </div>
