@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Settings, LogOut, Activity } from "lucide-react";
+import { LayoutDashboard, Users, LogOut, Activity } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ import {
 const navItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Patients", url: "/patients", icon: Users },
-  { title: "Settings", url: "/settings", icon: Settings },
+  
 ];
 
 export function AppSidebar() {
