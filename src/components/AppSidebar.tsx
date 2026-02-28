@@ -1,4 +1,4 @@
-import { Home, LogOut } from "lucide-react";
+import { Home, Bell, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +52,18 @@ export function AppSidebar() {
                   >
                     <Home className="h-5 w-5 shrink-0" />
                     {!collapsed && <span>Dashboard</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/notifications"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+                    activeClassName="bg-sidebar-accent text-sidebar-primary font-semibold"
+                  >
+                    <Bell className="h-5 w-5 shrink-0" />
+                    {!collapsed && <span>Notifications</span>}
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>

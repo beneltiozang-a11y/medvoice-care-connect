@@ -8,6 +8,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AppointmentDetail from "./pages/AppointmentDetail";
+import Consultation from "./pages/Consultation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,16 @@ const AppRoutes = () => {
           <ProtectedRoute>
             <DashboardLayout>
               <AppointmentDetail />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/appointments/:id/consultation"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <Consultation />
             </DashboardLayout>
           </ProtectedRoute>
         }
