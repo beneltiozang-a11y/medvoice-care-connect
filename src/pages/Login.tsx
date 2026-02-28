@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ClerkLogoMark } from "@/components/ClerkLogo";
+import { ClerkLogo } from "@/components/ClerkLogo";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,13 +33,10 @@ export default function Login() {
       <div className="w-full max-w-sm space-y-0">
         {/* Logo area */}
         <div className="text-center space-y-3 pb-7">
-          <div className="mx-auto h-11 w-11 rounded-[10px] bg-primary/10 border border-primary/20 flex items-center justify-center">
-            <ClerkLogoMark className="h-5 w-5 text-primary" />
+          <div className="flex justify-center">
+            <ClerkLogo />
           </div>
-          <div>
-            <h1 className="text-xl font-semibold text-foreground tracking-tight">Clerk</h1>
-            <p className="text-xs text-muted-foreground mt-1 tracking-wide">Your AI medical scribe</p>
-          </div>
+          <p className="text-xs text-muted-foreground mt-1 tracking-wide">Your AI medical scribe</p>
         </div>
 
         {/* Separator */}
